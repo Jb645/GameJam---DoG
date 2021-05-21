@@ -217,7 +217,7 @@ GameObject:
   - component: {fileID: 1943271229}
   - component: {fileID: 1943271228}
   - component: {fileID: 1943271227}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -309,7 +309,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1943271226}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.96, z: 0}
+  m_LocalPosition: {x: 0, y: -1.524, z: 0}
   m_LocalScale: {x: 54.555, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -382,10 +382,35 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5751819413395253065, guid: 2e972a271b81d1e40bfe60cd0f83f703,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5880714416365052596, guid: 2e972a271b81d1e40bfe60cd0f83f703,
+        type: 3}
+      propertyPath: maxSpeed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5880714416365052596, guid: 2e972a271b81d1e40bfe60cd0f83f703,
+        type: 3}
+      propertyPath: jumpForce
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5880714416365052596, guid: 2e972a271b81d1e40bfe60cd0f83f703,
+        type: 3}
+      propertyPath: platformLayer.m_Bits
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 6780574035965956611, guid: 2e972a271b81d1e40bfe60cd0f83f703,
         type: 3}
       propertyPath: m_BodyType
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6780574035965956611, guid: 2e972a271b81d1e40bfe60cd0f83f703,
+        type: 3}
+      propertyPath: m_CollisionDetection
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2e972a271b81d1e40bfe60cd0f83f703, type: 3}
