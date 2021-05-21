@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    const float GROUND_DIST_ERROR_MARGIN = .1f; // How far away from collider ground can be before onPlatform == true
+    const float PLATFORM_DIST_ERROR_MARGIN = .01f; // How far away from collider extent platform can be before onPlatform == true, used to extend raycast slightly past player collider
+    const float JUMP_DELAY_LENIENCE = .15f; // How long the jump button can be pressed above the ground before forgetting the input (used to jump when player eventually hits ground)
+    const float COYOTE_TIME_LENIENCE = .15f; // How long after falling off platform the player can still jump
+
 
     [Header("ComponentReferences")]
     [SerializeField] Rigidbody2D rb; // Reference to rigid body
@@ -16,18 +19,24 @@ public class Player : MonoBehaviour
     [SerializeField] LayerMask platformLayer; // What layer jumpable platforms are on
 
 
-    float groundDistance; // How far ground would be if player was on it
+    float platformDistance; // How far ground would be if player was on it
     bool onPlatform = false;
+
+    float timeSinceLastJumpInput = JUMP_DELAY_LENIENCE;
+    float timeSinceLastOnPlatform = COYOTE_TIME_LENIENCE;
 
 
     void Start()
     {
-        groundDistance = GetComponent<Collider2D>().bounds.extents.y + GROUND_DIST_ERROR_MARGIN;
+        platformDistance = GetComponent<Collider2D>().bounds.extents.y + PLATFORM_DIST_ERROR_MARGIN;
     }
 
 
     void Update()
     {
+        timeSinceLastJumpInput += Time.deltaTime;
+        timeSinceLastOnPlatform += Time.deltaTime;
+
         HandleMovement();
         HandleJump();
     }
@@ -44,8 +53,19 @@ public class Player : MonoBehaviour
     {
         onPlatform = CheckOnPlatform();
 
-        if(onPlatform && Input.GetKeyDown(KeyCode.Space))
+        if(onPlatform == true)
         {
+            timeSinceLastOnPlatform = 0;
+        }
+
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            timeSinceLastJumpInput = 0;
+        }
+
+        if(timeSinceLastOnPlatform < COYOTE_TIME_LENIENCE && timeSinceLastJumpInput < JUMP_DELAY_LENIENCE)
+        {
+            timeSinceLastJumpInput = JUMP_DELAY_LENIENCE;
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             onPlatform = false;
         }
@@ -54,6 +74,6 @@ public class Player : MonoBehaviour
 
     bool CheckOnPlatform()
     {
-        return Physics2D.Raycast(transform.position, Vector2.down, groundDistance, platformLayer);
+        return Physics2D.Raycast(transform.position, Vector2.down, platformDistance, platformLayer);
     }
 }
