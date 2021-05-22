@@ -513,6 +513,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5880714416365052596, guid: 2e972a271b81d1e40bfe60cd0f83f703,
         type: 3}
+      propertyPath: maxVSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5880714416365052596, guid: 2e972a271b81d1e40bfe60cd0f83f703,
+        type: 3}
+      propertyPath: maxFallSpeed
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5880714416365052596, guid: 2e972a271b81d1e40bfe60cd0f83f703,
+        type: 3}
       propertyPath: platformLayer.m_Bits
       value: 8
       objectReference: {fileID: 0}

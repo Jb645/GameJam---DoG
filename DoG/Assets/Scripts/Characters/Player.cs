@@ -16,6 +16,7 @@ public class Player : MonoBehaviour
 
     [Header("Variables")]
     [SerializeField] float maxHSpeed; // Maximum horizontal speed
+    [SerializeField] float maxFallSpeed; // Maximum falling speed
     [SerializeField] float jumpForce; // How high player jump is
     [SerializeField] LayerMask platformLayer; // What layer jumpable platforms are on
     [Range(0, 1)] [SerializeField] float earlyButtonReleaseDamp; // How much the jump should be reduced when player lets go of jump button early
@@ -83,6 +84,8 @@ public class Player : MonoBehaviour
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             onPlatform = false;
         }
+
+        rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -maxFallSpeed, Mathf.Infinity));
     }
 
 
