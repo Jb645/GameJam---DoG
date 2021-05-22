@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
     const float PLATFORM_DIST_ERROR_MARGIN = .01f; // How far away from collider extent platform can be before onPlatform == true, used to extend raycast slightly past player collider
     const float JUMP_DELAY_LENIENCE = .15f; // How long the jump button can be pressed above the ground before forgetting the input (used to jump when player eventually hits ground)
     const float COYOTE_TIME_LENIENCE = .15f; // How long after falling off platform the player can still jump
+    const float EXTRA_DOWNWARD_GRAVITY_MULT = .009f; // How much gravity is multiplied by when being added a second time while player is falling
 
 
     [Header("ComponentReferences")]
@@ -17,6 +18,7 @@ public class Player : MonoBehaviour
     [SerializeField] float maxHSpeed; // Maximum horizontal speed
     [SerializeField] float jumpForce; // How high player jump is
     [SerializeField] LayerMask platformLayer; // What layer jumpable platforms are on
+    [Range(0, 1)] [SerializeField] float earlyButtonReleaseDamp; // How much the jump should be reduced when player lets go of jump button early
 
 
     float platformDistance; // How far ground would be if player was on it
@@ -61,6 +63,18 @@ public class Player : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Space))
         {
             timeSinceLastJumpInput = 0;
+        }
+        else if(Input.GetKeyUp(KeyCode.Space))
+        {
+            if(rb.velocity.y > 0) // In air moving upwards
+            {
+                rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * earlyButtonReleaseDamp);
+            }
+        }
+
+        if(rb.velocity.y < 0)
+        {
+            rb.velocity += Vector2.down * -Physics.gravity * EXTRA_DOWNWARD_GRAVITY_MULT;
         }
 
         if(timeSinceLastOnPlatform < COYOTE_TIME_LENIENCE && timeSinceLastJumpInput < JUMP_DELAY_LENIENCE)
